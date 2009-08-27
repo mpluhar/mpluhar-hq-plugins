@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<plugin name="sensatronicse">
+  <classpath>
+    <include name="pdk/plugins/netdevice-plugin.jar" />
+  </classpath>
+  <property name="MIBDIR" value="/usr/share/snmp/mibs" />
+  <property name="MIBS" value="${MIBDIR}/sensatronics-ittm.my,${MIBDIR}/sensatronics-smi.my,${MIBDIR}/DISMAN-EVENT-MIB.txt" />
+  <filter name="" value="" />
+  <platform name="Sensatronics E">
+    <config include="snmp" />
+    <properties>
+      <property name="sysName" description="Name"/>
+      <property name="sysContact" description="Contact Name"/>
+      <property name="unitName" description="Device Name" />
+      <property name="unitModel" description="Device Model"/>
+      <property name="unitManufacturer" description="Manufactor"/>
+      <property name="unitFirmware" description="Firmware Version"/>
+      <property name="netIP" description="IP Address"/>
+      <property name="netGW" description="Gateway"/>
+      <property name="unitMode" description="Unit Mode"/>
+
+      </properties>
+    <plugin type="autoinventory" class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
+
+
+    <plugin type="measurement" class="net.hyperic.hq.product.SNMPMeasurementPlugin" />
+    <!-- <property name="template" value="" /> -->
+    <property name="template" value="${snmp.template}:${alias}" />
+    <metric name="sensor16SwitchInt" alias="sensor16SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor16DataInt" alias="sensor16DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor15SwitchInt" alias="sensor15SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor15DataInt" alias="sensor15DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor14SwitchInt" alias="sensor14SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor14DataInt" alias="sensor14DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor13SwitchInt" alias="sensor13SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor13DataInt" alias="sensor13DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor12SwitchInt" alias="sensor12SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor12DataInt" alias="sensor12DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor11SwitchInt" alias="sensor11SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor11DataInt" alias="sensor11DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor10SwitchInt" alias="sensor10SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor10DataInt" alias="sensor10DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor9SwitchInt" alias="sensor9SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor9DataInt" alias="sensor9DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor8SwitchInt" alias="sensor8SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor8DataInt" alias="sensor8DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor7SwitchInt" alias="sensor7SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor7DataInt" alias="sensor7DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor6SwitchInt" alias="sensor6SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor6DataInt" alias="sensor6DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor5SwitchInt" alias="sensor5SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor5DataInt" alias="sensor5DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor4SwitchInt" alias="sensor4SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor4DataInt" alias="sensor4DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor3SwitchInt" alias="sensor3SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false"/>
+    <metric name="sensor3DataInt" alias="sensor3DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true"/>
+    <metric name="sensor2SwitchInt" alias="sensor2SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true"/>
+    <metric name="sensor2DataInt" alias="sensor2DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true"/>
+    <metric name="sensor1SwitchInt" alias="sensor1SwitchInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true"/>
+    <metric name="sensor1DataInt" alias="sensor1DataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true"/>
+
+    <metric name="Uptime" alias="sysUpTimeInstance" units="jiffys" defaultOn="true" collectionType="static" indicator="true"/>
+    <metric name="Availability" alias="Availability" template="${snmp.template},Avail=true:sysUpTimeInstance" collectionType="dynamic" units="percentage" category="AVAILABILITY" indicator="true"/>
+<!-- END SCALAR METRICS -->
+    <server>
+      <plugin type="autoinventory" class="org.hyperic.hq.plugin.netdevice.NetworkDeviceDetector" />
+      <plugin type="measurement" class="net.hyperic.hq.product.SNMPMeasurementPlugin" />
+    </server>
+  </platform>
+</plugin>

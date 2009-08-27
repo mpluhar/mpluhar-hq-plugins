@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE plugin [
+  <!ENTITY process-metrics SYSTEM "/pdk/plugins/process-metrics.xml">
+]>
+
+<plugin>
+  <script name="zope-stat">
+  <![CDATA[
+
+#!/bin/sh
+
+if [ $# -ne 4 ]
+then
+
+exit 0
+
+else
+
+ZOPE_URL='http://'$1':'$2'/Control_Panel/munin'
+
+if
+[ -x /usr/bin/curl ]
+then
+
+/usr/bin/curl -u $3:$4 $ZOPE_URL 2>/dev/null | /bin/sed s/": "/=/
+exit 0
+else
+
+[ -x /usr/bin/wget ]
+
+/usr/bin/wget --user=$3 --password=$4 -qO- $ZOPE_URL | /bin/sed s/": "/=/
+exit 0
+fi
+
+exit 0
+
+fi
+
+exit 0
+
+]]>
+  </script>
+
+  <server name="Zope"
+          version="2.x">
+
+    <config>
+      <option name="process.query"
+              description="Process Query"
+              default="State.Name.ct=python,Args.1.ct=Zope2/Startup/run.py"/>
+      <option name="hostname"
+              description="Zope IP-address or hostname"
+              default="localhost"/>
+        <option name="port"
+              description="Zope HTTP port"
+	      default="8080" />
+	<option name="username"
+              description="Zope username"
+	      default="zopeadm" />
+      <option name="credentials"
+              description="Zope password"
+	      type="secret"
+	      default="changeme" />
+
+    </config>
+
+    <property name="PROC_QUERY" value="State.Name.ct=python,Args.1.ct=Zope2/Startup/run.py"/>
+    <property name="DEFAULT_PROGRAM" value="zopectl"/>
+    <property name="HAS_BUILTIN_SERVICES" value="true"/>
+    <property name="BACKGROUND_COMMAND" value="false"/>
+
+    <plugin type="autoinventory"
+            class="org.hyperic.hq.product.DaemonDetector"/>
+
+    <plugin type="measurement"
+            class="org.hyperic.hq.product.MeasurementPlugin"/>
+
+    <plugin type="control"
+            class="org.hyperic.hq.product.ScriptControlPlugin"/>
+
+    <actions include="start,restart,stop,kill,status,test"/>
+
+    <property name="start.args"
+              value="start"/>
+
+    <property name="restart.args"
+              value="restart"/>
+
+    <property name="stop.args"
+              value="stop"/>
+ 
+    <property name="kill.args"
+              value="kill"/>
+
+    <property name="status.args"
+              value="status"/>
+ 
+    <property name="test.args"
+              value="test"/>
+    
+    <metric name="Availability"
+            alias="Availability"
+            template="sigar:Type=ProcState,Arg=%process.query%:State"
+            category="AVAILABILITY"
+            indicator="true"
+            units="percentage"
+            collectionType="dynamic"/>
+
+    &process-metrics;
+<!--
+    <filter name="template"
+            value="exec:file=/tmp/zope-stat,exec=%exec%"/>
+  ,args=%hostname% %port% %username% %credentials%"/" -->
+    <filter name="template" value="exec:args=%hostname% %port% %username% %credentials%,file=pdk/work/scripts/zope/zope-stat:${alias}"/>
+
+	<metric name="uptime" 
+         units="sec"
+	 indicator="false"/>
+
+	<metric name="db-objects"
+	 indicator="true"/>
+
+	<metric name="db-stores"
+	 indicator="true"/>
+
+	<metric name="db-cache-total-size"
+	 indicator="false"/>
+
+	<metric name="db-cache-conn0-total-objects"
+	 indicator="false"/>
+
+	<metric name="db-loads"
+	 indicator="false"/>
+
+	<metric name="db-cache-conn0-active-objects"
+	 indicator="true"/>
+
+	<metric name="db-bytes"
+         units="B"
+	 indicator="false"/>
+
+	<metric name="errors-total"
+	 indicator="false"/>
+
+	<metric name="db-connections"
+	 indicator="false"/>
+
+	<metric name="db-cache-target-size"
+	 indicator="false"/>
+
+	<metric name="refcount-total"
+	 indicator="false"/>
+
+	<metric name="conflicts-total"
+	 indicator="false"/>
+
+	<metric name="conflicts-unresolved"
+	 indicator="true"/>
+
+
+
+    <!-- protocol services+metrics -->
+  </server>
+  <!-- ==================== Plugin Help =========================== -->
+  <help name="Zope">
+  <![CDATA[
+  <p>
+  <h3>Configure HQ for monitoring Zope</h3>
+  </p>
+  <p>
+  Download the ZNagios product for Zope from
+  <pre>
+  http://svn.gocept.com/viewcvs/ZNagios/trunk/
+  </pre>
+  and install it on your Zope server.
+  <br>
+  Auto-Discovery works only if you're running  a single Zope server on your platform.
+  <br>
+  Otherwise modify the process.query of the plugin:
+  <pre>
+  Pid.PidFile.eq=$YOUR_ZOPE_INSTANCE/var/Z2.pid  
+  </pre>
+  or add the Server manually using the line above for your process query.
+  <br>
+  Control Actions only work if the Hyperic HQ Agent runs with the userid of the Zope instances
+  </p>
+  ]]>
+  </help>
+  <help name="Zope 2.x" include="Zope"/>
+</plugin>

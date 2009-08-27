@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<plugin name="sensatronicsem1">
+  <classpath>
+    <include name="pdk/plugins/netdevice-plugin.jar" />
+  </classpath>
+  <property name="MIBDIR" value="/usr/share/snmp/mibs" />
+  <property name="MIBS" value="${MIBDIR}/sensatronics-em1.my,${MIBDIR}/sensatronics-smi.my,${MIBDIR}/DISMAN-EVENT-MIB.txt" />
+  <filter name="" value="" />
+  <platform name="Sensatronics EM1">
+    <config include="snmp" />
+    <properties>
+      <property name="sysName" description="Name"/>
+      <property name="sysContact" description="Contact Name"/>
+      <property name="unitName" description="Device Name" />
+      <property name="unitModel" description="Device Model"/>
+      <property name="unitManufacturer" description="Manufactor"/>
+      <property name="unitFirmware" description="Firmware Version"/>
+      <property name="netIP" description="IP Address"/>
+      <property name="netGW" description="Gateway"/>
+      <property name="unitMode" description="Unit Mode"/>
+
+      </properties>
+    <config include="snmp" />
+    <plugin type="autoinventory" class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
+
+
+    <plugin type="measurement" class="net.hyperic.hq.product.SNMPMeasurementPlugin" />
+    <!-- <property name="template" value="" /> -->
+    <property name="template" value="${snmp.template}:${alias}" />
+    <metric name="probe10Flags" alias="probe10Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe10State" alias="probe10State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe9Flags" alias="probe9Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe9State" alias="probe9State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe8Flags" alias="probe8Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe8State" alias="probe8State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe7Flags" alias="probe7Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe7State" alias="probe7State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe6Flags" alias="probe6Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe6State" alias="probe6State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe5Flags" alias="probe5Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe5State" alias="probe5State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe4Flags" alias="probe4Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe4State" alias="probe4State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe3Flags" alias="probe3Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe3State" alias="probe3State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe2Flags" alias="probe2Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe2State" alias="probe2State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe1Flags" alias="probe1Flags" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="probe1State" alias="probe1State" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group4WetDataInt" alias="group4WetDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group4HumidDataInt" alias="group4HumidDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group4TempDataInt" alias="group4TempDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true" />
+    <metric name="group3WetDataInt" alias="group3WetDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group3HumidDataInt" alias="group3HumidDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group3TempDataInt" alias="group3TempDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true" />
+    <metric name="group2WetDataInt" alias="group2WetDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group2HumidDataInt" alias="group2HumidDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group2TempDataInt" alias="group2TempDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true" />
+    <metric name="group1WetDataInt" alias="group1WetDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group1HumidDataInt" alias="group1HumidDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="false" />
+    <metric name="group1TempDataInt" alias="group1TempDataInt" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true" />
+    <metric name="Uptime" alias="sysUpTimeInstance" units="jiffys" defaultOn="true" collectionType="static" indicator="true"/>
+    <metric name="Availability" alias="Availability" template="${snmp.template},Avail=true:sysUpTimeInstance" collectionType="dynamic" units="percentage" category="AVAILABILITY" indicator="true"/>
+<!-- END SCALAR METRICS -->
+    <server>
+      <plugin type="autoinventory" class="org.hyperic.hq.plugin.netdevice.NetworkDeviceDetector" />
+      <plugin type="measurement" class="net.hyperic.hq.product.SNMPMeasurementPlugin" />
+    </server>
+  </platform>
+</plugin>
