@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<plugin name="bluecoat-8100">
+<classpath>
+    <include name="pdk/plugins/netdevice-plugin.jar" />
+  </classpath>
+<property name="MIBDIR" value="/usr/share/snmp/mibs"/>
+
+<property name="MIBS"
+value="${MIBDIR}/RFC1213-MIB.txt,${MIBDIR}/www.my,${MIBDIR}/SNMPv2.txt,${MIBDIR}/proxy.my,${MIBDIR}/sensor.my,${MIBDIR}/disk.my,${MIBDIR}/system-resources.my"/>
+
+<!-- index to get tabular virtual server data -->
+<platform name="BlueCoat ProxySG">
+
+<config include="snmp" />
+
+<properties>
+      <property name="sysContact" description="Contact Name" />
+      <property name="sysName" description="Name" />
+      <property name="sysLocation" description="Location" />
+      <property name="wwwServiceDescription.1" description="Service Description" />
+</properties>
+
+<plugin type="measurement"
+class="net.hyperic.hq.product.SNMPMeasurementPlugin"/>
+
+<plugin type="autoinventory"
+class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
+
+<plugin type="log_track"
+class="org.hyperic.hq.plugin.netdevice.SNMPTrapReceiverPlugin" />
+
+
+<filter name="index" value="snmpIndexName=${snmpIndexName},snmpIndexValue=%snmpIndexValue%" />
+<filter name="template" value="${snmp.template}:${alias}:${index}" />
+			
+			<metric name="Availability"
+				alias="Availability"
+				template="${snmp.template},Avail=true:sysUpTime"
+				indicator="true"/>
+
+			<metric name="Uptime"
+			        template="${snmp.template}:sysUpTime"
+            			units="jiffys"
+            			collectionType="static"
+				indicator="true"/>
+
+			<metric name="Proxy Memory Usage"
+				template="${snmp.template}:proxyMemUsage"	
+				collectionType="dynamic"
+				indicator="true"/>
+			
+			<metric name="Proxy Storage Usage"
+				template="${snmp.template}:proxyStorage"	
+				collectionType="dynamic"
+				indicator="true"/>
+
+			<metric name="Proxy Cpu Usage"
+				template="${snmp.template}:proxyCpuUsage"	
+				collectionType="dynamic"
+				indicator="true"/>
+
+			<metric name="Proxy Cpu Load in Sec"
+				template="${snmp.template}:proxyCpuLoad"	
+				collectionType="trendsup"
+				indicator="true"/>
+
+			<metric name="Requests In"
+              			template="${snmp.template}:wwwSummaryInRequests.1"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Requests Outs"
+              			template="${snmp.template}:wwwSummaryOutRequests.1"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Response In"
+              			template="${snmp.template}:wwwSummaryInResponses.1"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Response Outs"
+              			template="${snmp.template}:wwwSummaryOutResponses.1"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Response In"
+              			template="${snmp.template}:wwwSummaryInBytes.1"
+			        collectionType="trendsup"
+				units="B"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Response Outs"
+              			template="${snmp.template}:wwwSummaryOutBytes.1"
+			        collectionType="trendsup"
+				units="B"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Proxy Client HTTP Requests"
+              			template="${snmp.template}:proxyClientHttpRequests"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Client HTTP Requests"
+              			template="${snmp.template}:proxyClientHttpRequests"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Client HTTP Hits"
+              			template="${snmp.template}:proxyClientHttpHits"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Client HTTP Errors"
+              			template="${snmp.template}:proxyClientHttpErrors"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Server HTTP Requests"
+              			template="${snmp.template}:proxyServerHttpRequests"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Server HTTP Errors"
+              			template="${snmp.template}:proxyServerHttpErrors"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Client HTTP Kbs In"
+              			template="${snmp.template}:proxyClientHttpInKbs"
+			        collectionType="trendsup"
+				units="KB"
+              			indicator="true"/>
+
+			<metric name="Client HTTP Kbs Out"
+              			template="${snmp.template}:proxyClientHttpOutKbs"
+			        collectionType="trendsup"
+				units="KB"
+				rate="1s"
+              			indicator="true"/>
+
+			<metric name="Server HTTP Kbs In"
+              			template="${snmp.template}:proxyServerHttpInKbs"
+			        collectionType="trendsup"
+				units="KB"
+				rate="1s"
+              			indicator="true"/>
+
+			<metric name="Server HTTP Kbs Out"
+              			template="${snmp.template}:proxyServerHttpOutKbs"
+			        collectionType="trendsup"
+				units="KB"
+				rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 100"
+              			template="${snmp.template}:wwwResponseInResponses.1.100"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 101"
+              			template="${snmp.template}:wwwResponseInResponses.1.101"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+
+			<metric name="HTTP Responses Code 200"
+              			template="${snmp.template}:wwwResponseInResponses.1.200"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 302"
+              			template="${snmp.template}:wwwResponseInResponses.1.302"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 304"
+              			template="${snmp.template}:wwwResponseInResponses.1.304"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 400"
+              			template="${snmp.template}:wwwResponseInResponses.1.400"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 401"
+              			template="${snmp.template}:wwwResponseInResponses.1.401"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 403"
+              			template="${snmp.template}:wwwResponseInResponses.1.403"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 404"
+              			template="${snmp.template}:wwwResponseInResponses.1.404"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+
+			<metric name="HTTP Responses Code 500"
+              			template="${snmp.template}:wwwResponseInResponses.1.500"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+
+			<metric name="HTTP Responses Code 502"
+              			template="${snmp.template}:wwwResponseInResponses.1.502"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 503"
+              			template="${snmp.template}:wwwResponseInResponses.1.503"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="HTTP Responses Code 504"
+              			template="${snmp.template}:wwwResponseInResponses.1.504"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+<server>
+
+	<plugin type="measurement"
+                class="net.hyperic.hq.product.SNMPMeasurementPlugin"/>
+        <plugin type="autoinventory"
+                class="org.hyperic.hq.plugin.netdevice.NetworkDeviceDetector" />
+
+
+	<service name="Bluecoat Network Interface">
+
+
+                        <plugin type="autoinventory"/>
+
+                        <property name="snmpIndexName" value="ifDescr" />
+                        <property name="snmpIndexValue" value="ifIndex" />
+
+		        <properties>
+       				   <property name="ifPhysAddress"
+                   		    	    type="macaddress"
+                    			    description="Physical Address"/>
+				  <property name="ifMtu"
+					    type="int"
+					    description="Maximum Transmission Unit"/>
+				  <property name="ifSpeed"
+					    type="int"
+					    description="Bandwidth"/>
+			</properties>
+
+
+                        <metric name="Availability"
+                       		template="${snmp.template},Avail=true:ifSpeed:${index}"
+                        	indicator= "true"/>
+
+			<metric name="Bytes Received"
+              			template="${snmp.template}:ifInOctets:${index}"
+			        collectionType="trendsup"
+              			units="B"
+              			rate="1s"
+              			indicator="true"/>
+	
+			<metric name="Bytes Sent"
+              			template="${snmp.template}:ifOutOctets:${index}"
+			        collectionType="trendsup"
+              			units="B"
+              			rate="1s"
+              			indicator="true"/>
+
+			<metric name="Out Errors"
+              			template="${snmp.template}:ifInErrors:${index}"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+	
+			<metric name="In Errors"
+              			template="${snmp.template}:ifOutErrors:${index}"
+			        collectionType="trendsup"
+              			rate="1s"
+              			indicator="true"/>
+
+
+
+	   </service>
+
+</server>
+</platform>
+</plugin>
