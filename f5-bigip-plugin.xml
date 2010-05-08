@@ -17,9 +17,11 @@ value="${MIBDIR}/SNMPv2-MIB.txt,${MIBDIR}/SNMPv2-TC.txt,${MIBDIR}/SNMPv2-CONF.tx
       <property name="sysContact" description="Contact Name" />
       <property name="sysName" description="Name" />
       <property name="sysLocation" description="Location" />
-      <property name="sysGeneralChassisSerialNum" description="Chassis Serial" />
+      <property name="sysGeneralChassisSerialNum" description="Device Serial Number" />
       <property name="sysGeneralHwNumber" description="Model" />
       <property name="sysProductVersion" description="Version" />
+      <property name="sysProductBuild" description="Build" />
+
 </properties>
 
 <plugin type="measurement"
@@ -29,6 +31,365 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 
 <filter name="index" value="snmpIndexName=${snmpIndexName},snmpIndexValue=%snmpIndexValue%" />
 <filter name="template" value="${snmp.template}:${alias}:${index}" />
+
+
+	<!-- scalar metrics -->
+	<metric name="Availability"
+	template="${snmp.template},Avail=true:sysUpTime"
+	defaultOn="true"
+	indicator="true"/>
+
+	<metric name="Uptime"
+	template="${snmp.template}:sysUpTime"
+	category="AVAILABILITY"
+	units="jiffys"
+	defaultOn="true"
+	collectionType="static"/>
+	
+	<metric name="Host Memory Total"
+	template="${snmp.template}:sysHostMemoryTotal"
+	category="UTILIZATION"
+	units="B"
+	indicator="true"
+	defaultOn="true"
+	collectionType="dynamic"/>
+	
+	<metric name="Host Memory Used"
+	template="${snmp.template}:sysHostMemoryUsed"
+	category="UTILIZATION"
+	units="B"
+	indicator="true"
+	defaultOn="true"
+	collectionType="dynamic"/>
+
+	<metric name="TMM Memory Total"
+	template="${snmp.template}:sysStatMemoryTotal"
+	category="UTILIZATION"
+	units="B"
+	indicator="true"
+	defaultOn="true"
+	collectionType="dynamic"/>
+	
+	<metric name="TMM Memory Used"
+	template="${snmp.template}:sysStatMemoryUsed"
+	category="UTILIZATION"
+	units="B"
+	indicator="true"
+	defaultOn="true"
+	collectionType="dynamic"/>
+
+	<metric name="Packets from Clients"
+	template="${snmp.template}:sysStatClientPktsIn"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+	
+	<metric name="Packets to Clients"
+	template="${snmp.template}:sysStatClientPktsOut"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Bytes from Clients"
+	template="${snmp.template}:sysStatClientBytesIn"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Bytes to Clients"
+	template="${snmp.template}:sysStatClientBytesOut"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Total Client Connections"
+	template="${snmp.template}:sysStatClientTotConns"
+	category="UTILIZATION"
+	collectionType="trendsup"/>
+
+	<metric name="Maximum Client Connections"
+	template="${snmp.template}:sysStatClientMaxConns"
+	category="UTILIZATION"
+	collectionType="dynamic"/>
+
+	<metric name="Current Client Connections"
+	template="${snmp.template}:sysStatClientCurConns"
+	category="UTILIZATION"
+	defaultOn="true"
+	collectionType="dynamic"
+	indicator="true"/>
+
+	<metric name="Packets from Servers"
+	template="${snmp.template}:sysStatServerPktsIn"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Packets to Servers"
+	template="${snmp.template}:sysStatServerPktsOut"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Bytes from Servers"
+	template="${snmp.template}:sysStatServerBytesIn"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Bytes to Servers"
+	template="${snmp.template}:sysStatServerBytesOut"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Total Server Connections"
+	template="${snmp.template}:sysStatServerTotConns"
+	category="UTILIZATION"
+	collectionType="trendsup"/>
+
+	<metric name="Maximum Server Connections"
+	template="${snmp.template}:sysStatServerMaxConns"
+	category="UTILIZATION"
+	collectionType="dynamic"/>
+
+	<metric name="Current Server Connections"
+	template="${snmp.template}:sysStatServerCurConns"
+	category="UTILIZATION"
+	defaultOn="true"
+	collectionType="dynamic"
+	indicator="true"/>
+
+	<metric name="PVA Accelerated Packets from Clients"
+	template="${snmp.template}:sysStatPvaClientPktsIn"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="PVA Accelerated Packets to Clients"
+	template="${snmp.template}:sysStatPvaClientPktsOut"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="PVA Accelerated Bytes from Clients"
+	template="${snmp.template}:sysStatPvaClientBytesIn"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="PVA Accelerated Bytes to Clients"
+	template="${snmp.template}:sysStatPvaClientBytesOut"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Total PVA Accelerated Client Conns"
+	template="${snmp.template}:sysStatPvaClientTotConns"
+	category="UTILIZATION"
+	collectionType="trendsup"/>
+
+	<metric name="Maximum PVA Accelerated Client Conns"
+	template="${snmp.template}:sysStatPvaClientMaxConns"
+	category="UTILIZATION"
+	collectionType="dynamic"/>
+
+	<metric name="Current PVA Accelerated Client Conns"
+	template="${snmp.template}:sysStatPvaClientCurConns"
+	category="UTILIZATION"
+	defaultOn="true"
+	collectionType="dynamic"
+	indicator="true"/>
+
+	<metric name="PVA Accelerated Packets from Servers"
+	template="${snmp.template}:sysStatPvaClientPktsIn"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="PVA Accelerated Packets to Servers"
+	template="${snmp.template}:sysStatPvaClientPktsOut"
+	category="THROUGHPUT"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="PVA Accelerated Bytes from Servers"
+	template="${snmp.template}:sysStatPvaClientBytesIn"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="PVA Accelerated Bytes to Servers"
+	template="${snmp.template}:sysStatPvaClientBytesOut"
+	category="THROUGHPUT"
+	units="B"
+	defaultOn="true"
+	collectionType="trendsup"
+	indicator="true"
+	rate="1m"/>
+
+	<metric name="Total PVA Accelerated Server Conns"
+	template="${snmp.template}:sysStatPvaServerTotConns"
+	category="UTILIZATION"
+	collectionType="trendsup"/>
+
+	<metric name="Maximum PVA Accelerated Server Conns"
+	template="${snmp.template}:sysStatPvaClientMaxConns"
+	category="UTILIZATION"
+	collectionType="dynamic"/>
+
+	<metric name="Current PVA Accelerated Server Conns"
+	template="${snmp.template}:sysStatPvaClientCurConns"
+	category="UTILIZATION"
+	defaultOn="true"
+	collectionType="dynamic"
+	indicator="true"/>
+
+	<metric name="PVA Accelerated Conns"
+	template="${snmp.template}:sysStatTotPvaAssistConn"
+	category="UTILIZATION"
+	collectionType="trendsup"
+	rate="1m"
+	defaultOn="true"
+	indicator="true"/>
+
+	<metric name="Current PVA Accelerated Conns"
+	template="${snmp.template}:sysStatCurrPvaAssistConn"
+	category="UTILIZATION"
+	defaultOn="true"
+	collectionType="dynamic"
+	indicator="true"/>
+
+	<metric name="Conn Reqs Denied in Maintenance Mode"
+	template="${snmp.template}:sysStatMaintenanceModeDeny"
+	category="THROUGHPUT"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="Conn Reqs Denied by VServers (> Max Conns)"
+	template="${snmp.template}:sysStatMaxConnVirtualPathDeny"
+	category="THROUGHPUT"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="Non-SYN Packets Dropped - No VServer Conn"
+	template="${snmp.template}:sysStatVirtualServerNonSynDeny"
+	category="THROUGHPUT"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="Packets Dropped for No Valid Handler"
+	template="${snmp.template}:sysStatNoHandlerDeny"
+	category="THROUGHPUT"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="Conns Denied due to Insufficient Memory"
+	template="${snmp.template}:sysStatConnectionMemoryErrors"
+	category="THROUGHPUT"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="HTTP Requests"
+	template="${snmp.template}:sysHttpStatNumberReqs"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="HTTP POST Requests"
+	template="${snmp.template}:sysHttpStatGetReqs"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="HTTP GET Requests"
+	template="${snmp.template}:sysHttpStatPostReqs"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="Successful HTTP Persist-Cookie Inserts"
+	template="${snmp.template}:sysHttpStatCookiePersistInserts"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="HTTP 2xx Responses"
+	template="${snmp.template}:sysHttpStatResp2xxCnt"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="HTTP 3xx Responses"
+	template="${snmp.template}:sysHttpStatResp3xxCnt"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="HTTP 4xx Responses"
+	template="${snmp.template}:sysHttpStatResp4xxCnt"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
+
+	<metric name="HTTP 5xx Responses"
+	template="${snmp.template}:sysHttpStatResp5xxCnt"
+	category="THROUGHPUT"
+	indicator="true"
+	defaultOn="true"
+	collectionType="trendsup"
+	rate="1m"/>
 
 <server>
 
@@ -55,6 +416,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="none"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Nice CPU Time"
 			template="${snmp.template}:sysMultiHostCpuNice5m:${index}"
 			category="UTILIZATION"
@@ -62,6 +424,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="none"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="System CPU Time"
 			template="${snmp.template}:sysMultiHostCpuSystem5m:${index}"
 			category="UTILIZATION"	
@@ -69,6 +432,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="none"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Idle CPU Time"
 			template="${snmp.template}:sysMultiHostCpuIdle5m:${index}"
 			category="UTILIZATION"		
@@ -76,6 +440,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="none"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="IRQ CPU Time"
 			template="${snmp.template}:sysMultiHostCpuIrq5m:${index}"
 			category="UTILIZATION"	
@@ -83,6 +448,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="none"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Software IRQ CPU Time"
 			template="${snmp.template}:sysMultiHostCpuSoftirq5m:${index}"
 			category="UTILIZATION"
@@ -90,6 +456,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="none"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="IO Wait CPU Time"
 			template="${snmp.template}:sysMultiHostCpuIowait5m:${index}"
 			category="UTILIZATION"	
@@ -120,6 +487,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="percentage"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Enabled State"
 			template="${snmp.template}:ltmVsStatusEnabledState:${index}"
 			category="UTILIZATION"
@@ -127,18 +495,21 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="percentage"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Peak Client Connections"
 			template="${snmp.template}:ltmVirtualServStatClientMaxConns:${index}"
 			category="UTILIZATION"
 			collectionType="dynamic"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Current Client Connections"
 			template="${snmp.template}:ltmVirtualServStatClientCurConns:${index}"
 			category="UTILIZATION"
 			collectionType="dynamic"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Total Client Connections"
 			template="${snmp.template}:ltmVirtualServStatClientTotConns:${index}"
 			category="UTILIZATION"
@@ -152,17 +523,20 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="B"
 			collectionType="trendsup"
 			indicator="true"/>
+
 			<metric name="Bytes to Clients"
 			template="${snmp.template}:ltmVirtualServStatClientBytesOut:${index}"
 			category="THROUGHPUT"
 			units="B"
 			collectionType="trendsup"
 			indicator="true"/>
+
 			<metric name="Packets from Clients"
 			template="${snmp.template}:ltmVirtualServStatClientPktsIn:${index}"
 			category="THROUGHPUT"
 			collectionType="trendsup"
 			indicator="true"/>
+
 			<metric name="Packets to Clients"
 			template="${snmp.template}:ltmVirtualServStatClientPktsOut:${index}"
 			category="THROUGHPUT"
@@ -175,12 +549,14 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			collectionType="dynamic"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Current PVA Connections"
 			template="${snmp.template}:ltmVirtualServStatPvaCurConns:${index}"
 			category="UTILIZATION"
 			collectionType="dynamic"
 			defaultOn="true"
 			indicator="true"/>
+
 			<metric name="Total PVA Connections"
 			template="${snmp.template}:ltmVirtualServStatPvaTotConns:${index}"
 			category="UTILIZATION"
@@ -194,17 +570,20 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			units="B"
 			collectionType="trendsup"
 			indicator="true"/>
+
 			<metric name="PVA Accelerated Bytes to Clients"
 			template="${snmp.template}:ltmVirtualServStatPvaBytesOut:${index}"
 			category="THROUGHPUT"
 			units="B"
 			collectionType="trendsup"
 			indicator="true"/>
+
 			<metric name="PVA Accelerated Packets from Clients"
 			template="${snmp.template}:ltmVirtualServStatPvaPktsIn:${index}"
 			category="THROUGHPUT"
 			collectionType="trendsup"
 			indicator="true"/>
+
 			<metric name="PVA Accelerated Packets to Clients"
 			template="${snmp.template}:ltmVirtualServStatPvaPktsOut:${index}"
 			category="THROUGHPUT"
@@ -227,18 +606,80 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			<property name="snmpIndexValue" value="ltmPoolNumber" />
 
 
-			<metric name="Availability" alias="Availability" template="${snmp.template}:ltmPoolStatusAvailState:${index}" indicator="true" />
+			<metric name="Availability" 
+			alias="Availability" 
+			template="${snmp.template}:ltmPoolStatusAvailState:${index}" 
+			indicator="true" />
 
-			<metric name="Member Count" template="${snmp.template}:ltmPoolMemberCnt:${index}" category="PERFORMANCE" collectionType="dynamic" units="none" indicator="true" />
-			<metric name="Available State" template="${snmp.template}:ltmPoolStatusAvailState:${index}" category="UTILIZATION" collectionType="dynamic" units="percentage" indicator="true" />
-			<metric name="Enabled State" template="${snmp.template}:ltmPoolStatusEnabledState:${index}" category="UTILIZATION" collectionType="dynamic" units="percentage" indicator="true" />
-			<metric name="Packets In" template="${snmp.template}:ltmPoolStatServerPktsIn:${index}" category="UTILIZATION" collectionType="trendsup" units="none" indicator="true" />
-			<metric name="Bytes In" template="${snmp.template}:ltmPoolStatServerBytesIn:${index}" category="UTILIZATION" collectionType="trendsup" units="B" indicator="true" />
-			<metric name="Packets Out" template="${snmp.template}:ltmPoolStatServerPktsOut:${index}" category="UTILIZATION" collectionType="trendsup" units="none" indicator="true" />
-			<metric name="Bytes Out" template="${snmp.template}:ltmPoolStatServerBytesOut:${index}" category="UTILIZATION" collectionType="trendsup" units="B" indicator="true" />
-			<metric name="Max Connections" template="${snmp.template}:ltmPoolStatServerMaxConns:${index}" category="UTILIZATION" collectionType="trendsup" units="none" indicator="true" />
-			<metric name="Total Connections" template="${snmp.template}:ltmPoolStatServerTotConns:${index}" category="UTILIZATION" collectionType="trendsup" units="none" indicator="true" />
-			<metric name="Current Connetions" template="${snmp.template}:ltmPoolStatServerCurConns:${index}" category="UTILIZATION" collectionType="dynamic" units="none" indicator="true" />
+			<metric name="Member Count" 
+			template="${snmp.template}:ltmPoolMemberCnt:${index}" 
+			category="PERFORMANCE" 
+			collectionType="dynamic"
+			units="none"
+			indicator="true" />
+
+			<metric name="Available State" 
+			template="${snmp.template}:ltmPoolStatusAvailState:${index}"
+			category="UTILIZATION" 
+			collectionType="dynamic"
+			units="percentage"
+			indicator="true" />
+
+			<metric name="Enabled State" 
+			template="${snmp.template}:ltmPoolStatusEnabledState:${index}"
+			category="UTILIZATION" 
+			collectionType="dynamic" 
+			units="percentage" 
+			indicator="true" />
+			
+			<metric name="Packets In"
+			template="${snmp.template}:ltmPoolStatServerPktsIn:${index}" 
+			category="UTILIZATION"
+			collectionType="trendsup" 
+			units="none"
+			indicator="true" />
+
+			<metric name="Bytes In" 
+			template="${snmp.template}:ltmPoolStatServerBytesIn:${index}"
+			category="UTILIZATION" 
+			collectionType="trendsup" 
+			units="B" 
+			indicator="true" />
+
+			<metric name="Packets Out"
+			template="${snmp.template}:ltmPoolStatServerPktsOut:${index}" 
+			category="UTILIZATION" 
+			collectionType="trendsup"
+			units="none" 
+			indicator="true" />
+
+			<metric name="Bytes Out"
+			template="${snmp.template}:ltmPoolStatServerBytesOut:${index}"
+			category="UTILIZATION" 
+			collectionType="trendsup"
+			units="B" 
+			indicator="true" />
+
+			<metric name="Max Connections" 
+			template="${snmp.template}:ltmPoolStatServerMaxConns:${index}" 
+			category="UTILIZATION" 
+			collectionType="trendsup" 
+			units="none"
+			indicator="true" />
+
+			<metric name="Total Connections"
+			template="${snmp.template}:ltmPoolStatServerTotConns:${index}" 
+			category="UTILIZATION" 
+			collectionType="trendsup"
+			units="none" 
+			indicator="true" />
+
+			<metric name="Current Connetions"
+			template="${snmp.template}:ltmPoolStatServerCurConns:${index}" 
+			category="UTILIZATION" 
+			collectionType="dynamic" 
+			units="none"
+			indicator="true" />
 
 		</service>
 		
@@ -249,6 +690,22 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 
 			<property name="snmpIndexName" value="sysInterfaceName" />
 			<property name="snmpIndexValue" value="sysInterfaceNumber" />
+
+			<properties>
+			  <property name="sysInterfaceMacAddr"
+				    type="macaddress"
+				    description="Physical Address"/>
+			  <property name="sysInterfaceMtu"
+				    type="int"
+				    description="Maximum Transmission Unit"/>
+			  <property name="sysInterfaceMediaMaxSpeed"
+				    type="int"
+				    description="Max Speed"/>
+			  <property name="sysInterfaceMediaActiveSpeed"
+				    type="int"
+				    description="Active Speed"/>
+			</properties>
+
 
 			<metric name="Availability"
 			template="${snmp.template},Avail=true:sysInterfaceMediaActiveSpeed:${index}"
@@ -265,6 +722,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			defaultOn="true"
 			indicator="true"
 			rate="1m"/>
+			
 			<metric name="Outgoing Packets"
 			template="${snmp.template}:sysInterfaceStatPktsOut:${index}"
 			collectionType="trendsup"
@@ -279,6 +737,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			collectionType="trendsup"
 			defaultOn="true"
 			indicator="true"/>
+		
 			<metric name="Outgoing Bytes"
 			template="${snmp.template}:sysInterfaceStatBytesOut:${index}"
 			category="THROUGHPUT"
@@ -293,6 +752,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			collectionType="trendsup"
 			defaultOn="true"
 			indicator="true"/>
+			
 			<metric name="Outgoing Errors"
 			template="${snmp.template}:sysInterfaceStatErrorsOut:${index}"
 			category="THROUGHPUT"
@@ -306,6 +766,7 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 			collectionType="trendsup"
 			defaultOn="true"
 			indicator="true"/>
+		
 			<metric name="Outgoing Dropped Packets"
 			template="${snmp.template}:sysInterfaceStatBytesOut:${index}"
 			category="THROUGHPUT"
@@ -315,312 +776,6 @@ class="org.hyperic.hq.plugin.netdevice.NetworkDevicePlatformDetector" />
 		</service>
 </server>
 
-	<!-- scalar metrics -->
-	<metric name="Availability"
-	template="${snmp.template},Avail=true:sysUpTime"
-	defaultOn="true"
-	indicator="true"/>
-
-	<metric name="Uptime"
-	template="${snmp.template}:sysUpTime"
-	category="AVAILABILITY"
-	units="jiffys"
-	defaultOn="true"
-	collectionType="static"/>
-
-	<metric name="Memory Total"
-	template="${snmp.template}:sysStatMemoryTotal"
-	category="UTILIZATION"
-	units="B"
-	indicator="true"
-	defaultOn="true"
-	collectionType="dynamic"/>
-	<metric name="Memory Used"
-	template="${snmp.template}:sysStatMemoryUsed"
-	category="UTILIZATION"
-	units="B"
-	indicator="true"
-	defaultOn="true"
-	collectionType="dynamic"/>
-
-	<metric name="Packets from Clients"
-	template="${snmp.template}:sysStatClientPktsIn"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Packets to Clients"
-	template="${snmp.template}:sysStatClientPktsOut"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Bytes from Clients"
-	template="${snmp.template}:sysStatClientBytesIn"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Bytes to Clients"
-	template="${snmp.template}:sysStatClientBytesOut"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Total Client Connections"
-	template="${snmp.template}:sysStatClientTotConns"
-	category="UTILIZATION"
-	collectionType="trendsup"/>
-	<metric name="Maximum Client Connections"
-	template="${snmp.template}:sysStatClientMaxConns"
-	category="UTILIZATION"
-	collectionType="dynamic"/>
-	<metric name="Current Client Connections"
-	template="${snmp.template}:sysStatClientCurConns"
-	category="UTILIZATION"
-	defaultOn="true"
-	collectionType="dynamic"
-	indicator="true"/>
-
-	<metric name="Packets from Servers"
-	template="${snmp.template}:sysStatServerPktsIn"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Packets to Servers"
-	template="${snmp.template}:sysStatServerPktsOut"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Bytes from Servers"
-	template="${snmp.template}:sysStatServerBytesIn"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Bytes to Servers"
-	template="${snmp.template}:sysStatServerBytesOut"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Total Server Connections"
-	template="${snmp.template}:sysStatServerTotConns"
-	category="UTILIZATION"
-	collectionType="trendsup"/>
-	<metric name="Maximum Server Connections"
-	template="${snmp.template}:sysStatServerMaxConns"
-	category="UTILIZATION"
-	collectionType="dynamic"/>
-	<metric name="Current Server Connections"
-	template="${snmp.template}:sysStatServerCurConns"
-	category="UTILIZATION"
-	defaultOn="true"
-	collectionType="dynamic"
-	indicator="true"/>
-
-	<metric name="PVA Accelerated Packets from Clients"
-	template="${snmp.template}:sysStatPvaClientPktsIn"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="PVA Accelerated Packets to Clients"
-	template="${snmp.template}:sysStatPvaClientPktsOut"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="PVA Accelerated Bytes from Clients"
-	template="${snmp.template}:sysStatPvaClientBytesIn"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="PVA Accelerated Bytes to Clients"
-	template="${snmp.template}:sysStatPvaClientBytesOut"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Total PVA Accelerated Client Conns"
-	template="${snmp.template}:sysStatPvaClientTotConns"
-	category="UTILIZATION"
-	collectionType="trendsup"/>
-	<metric name="Maximum PVA Accelerated Client Conns"
-	template="${snmp.template}:sysStatPvaClientMaxConns"
-	category="UTILIZATION"
-	collectionType="dynamic"/>
-	<metric name="Current PVA Accelerated Client Conns"
-	template="${snmp.template}:sysStatPvaClientCurConns"
-	category="UTILIZATION"
-	defaultOn="true"
-	collectionType="dynamic"
-	indicator="true"/>
-
-	<metric name="PVA Accelerated Packets from Servers"
-	template="${snmp.template}:sysStatPvaClientPktsIn"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="PVA Accelerated Packets to Servers"
-	template="${snmp.template}:sysStatPvaClientPktsOut"
-	category="THROUGHPUT"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="PVA Accelerated Bytes from Servers"
-	template="${snmp.template}:sysStatPvaClientBytesIn"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="PVA Accelerated Bytes to Servers"
-	template="${snmp.template}:sysStatPvaClientBytesOut"
-	category="THROUGHPUT"
-	units="B"
-	defaultOn="true"
-	collectionType="trendsup"
-	indicator="true"
-	rate="1m"/>
-	<metric name="Total PVA Accelerated Server Conns"
-	template="${snmp.template}:sysStatPvaServerTotConns"
-	category="UTILIZATION"
-	collectionType="trendsup"/>
-	<metric name="Maximum PVA Accelerated Server Conns"
-	template="${snmp.template}:sysStatPvaClientMaxConns"
-	category="UTILIZATION"
-	collectionType="dynamic"/>
-	<metric name="Current PVA Accelerated Server Conns"
-	template="${snmp.template}:sysStatPvaClientCurConns"
-	category="UTILIZATION"
-	defaultOn="true"
-	collectionType="dynamic"
-	indicator="true"/>
-
-	<metric name="PVA Accelerated Conns"
-	template="${snmp.template}:sysStatTotPvaAssistConn"
-	category="UTILIZATION"
-	collectionType="trendsup"
-	rate="1m"
-	defaultOn="true"
-	indicator="true"/>
-	<metric name="Current PVA Accelerated Conns"
-	template="${snmp.template}:sysStatCurrPvaAssistConn"
-	category="UTILIZATION"
-	defaultOn="true"
-	collectionType="dynamic"
-	indicator="true"/>
-
-	<metric name="Conn Reqs Denied in Maintenance Mode"
-	template="${snmp.template}:sysStatMaintenanceModeDeny"
-	category="THROUGHPUT"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="Conn Reqs Denied by VServers (> Max Conns)"
-	template="${snmp.template}:sysStatMaxConnVirtualPathDeny"
-	category="THROUGHPUT"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="Non-SYN Packets Dropped - No VServer Conn"
-	template="${snmp.template}:sysStatVirtualServerNonSynDeny"
-	category="THROUGHPUT"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="Packets Dropped for No Valid Handler"
-	template="${snmp.template}:sysStatNoHandlerDeny"
-	category="THROUGHPUT"
-	collectionType="trendsup"
-	rate="1m"/>
-
-	<metric name="Conns Denied due to Insufficient Memory"
-	template="${snmp.template}:sysStatConnectionMemoryErrors"
-	category="THROUGHPUT"
-	collectionType="trendsup"
-	rate="1m"/>
-
-	<metric name="HTTP Requests"
-	template="${snmp.template}:sysHttpStatNumberReqs"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="HTTP POST Requests"
-	template="${snmp.template}:sysHttpStatGetReqs"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="HTTP GET Requests"
-	template="${snmp.template}:sysHttpStatPostReqs"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
-
-	<metric name="Successful HTTP Persist-Cookie Inserts"
-	template="${snmp.template}:sysHttpStatCookiePersistInserts"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="HTTP 2xx Responses"
-	template="${snmp.template}:sysHttpStatResp2xxCnt"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="HTTP 3xx Responses"
-	template="${snmp.template}:sysHttpStatResp3xxCnt"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="HTTP 4xx Responses"
-	template="${snmp.template}:sysHttpStatResp4xxCnt"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
-	<metric name="HTTP 5xx Responses"
-	template="${snmp.template}:sysHttpStatResp5xxCnt"
-	category="THROUGHPUT"
-	indicator="true"
-	defaultOn="true"
-	collectionType="trendsup"
-	rate="1m"/>
 
 </platform>
 </plugin>

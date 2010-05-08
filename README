@@ -1,1 +1,4 @@
 Some stupid plugins for Hyperic HQ
+- Two plugins for Sensatronics devices
+- A plugin for BIGIP F5 LTM 
+- A plugin for the Zope Applicationserver
